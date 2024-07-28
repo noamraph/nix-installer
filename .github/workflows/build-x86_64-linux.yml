@@ -11,7 +11,7 @@ on:
 jobs:
   build-x86_64-linux:
     name: Build x86_64 Linux (static)
-    runs-on: UbuntuLatest32Cores128G
+    runs-on: ubuntu-latest
     concurrency: ${{ inputs.cache-key }}
     permissions:
       id-token: "write"
