@@ -57,13 +57,15 @@ use nix_installer::{
 
 #[derive(Debug, serde::Deserialize, serde::Serialize, Clone)]
 #[serde(tag = "action_name", rename = "my_action")]
-pub struct MyAction {}
+pub struct MyAction {
+    my_field: String, // Just an example
+}
 
 
 impl MyAction {
     #[tracing::instrument(level = "debug", skip_all)]
     pub async fn plan() -> Result<StatefulAction<Self>, ActionError> {
-        Ok(Self {}.into())
+        Ok(Self { my_field: "my field".to_string() }.into())
     }
 }
 
@@ -400,6 +402,8 @@ pub enum ActionErrorKind {
         }
     }).collect::<Vec<_>>().join("\n"))]
     Multiple(Vec<ActionErrorKind>),
+    #[error("Determinate Nix planned, but this installer is not equipped to install it.")]
+    DeterminateNixUnavailable,
     /// The path already exists with different content that expected
     #[error(
         "`{0}` exists with different content than planned, consider removing it with `rm {0}`"

@@ -9,7 +9,8 @@ repository = "https://github.com/DeterminateSystems/nix-installer"
 documentation = "https://docs.rs/nix-installer/latest/nix_installer"
 
 [features]
-default = ["cli", "diagnostics"]
+default = ["cli", "diagnostics", "determinate-nix"]
+determinate-nix = []
 cli = ["eyre", "color-eyre", "clap", "tracing-subscriber", "tracing-error"]
 diagnostics = ["is_ci"]
 
@@ -41,7 +42,7 @@ url = { version = "2.3.1", default-features = false, features = ["serde"] }
 xz2 = { version = "0.1.7", default-features = false, features = ["static", "tokio"] }
 plist = { version = "1.7.0", default-features = false, features = [ "serde" ]}
 dirs = { version = "5.0.0", default-features = false }
-typetag = { git = "https://github.com/noamraph/typetag.git", branch = "ignore-repeating-tag", default-features = false }
+typetag = { version = "0.2.17", default-features = false }
 dyn-clone = { version = "1.0.9", default-features = false }
 rand = { version = "0.8.5", default-features = false, features = [ "std", "std_rng" ] }
 semver = { version = "1.0.23", default-features = false, features = ["serde", "std"] }
@@ -70,4 +71,7 @@ lto = true
 # NOTE(cole-h): We embed the Nix closure by reading from this environment variable, but this is not
 # available in docs.rs's build. It doesn't influence docs, so it's fine to set it to a bogus (but
 # existing-file) value.
-cargo-args = ["--config", "env.NIX_INSTALLER_TARBALL_PATH=\"../Cargo.toml\""]
+cargo-args = [
+    "--config", "env.NIX_INSTALLER_TARBALL_PATH=\"../Cargo.toml\"",
+    "--config", "env.DETERMINATE_NIXD_BINARY_PATH=\"../Cargo.toml\""
+]
